@@ -1,17 +1,17 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace Dillingham\Locality;
 
 use Illuminate\Support\ServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
+use Dillingham\Locality\Commands\LocalityCommand;
 
-class SkeletonServiceProvider extends ServiceProvider
+class LocalityServiceProvider extends ServiceProvider
 {
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/skeleton.php',
-            'skeleton'
+            __DIR__.'/../config/locality.php',
+            'locality'
         );
     }
 
@@ -20,11 +20,11 @@ class SkeletonServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'skeleton');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'locality');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                SkeletonCommand::class,
+                LocalityCommand::class,
             ]);
         }
     }
