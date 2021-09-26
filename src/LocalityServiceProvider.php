@@ -2,8 +2,8 @@
 
 namespace Dillingham\Locality;
 
-use Illuminate\Support\ServiceProvider;
 use Dillingham\Locality\Commands\LocalityCommand;
+use Illuminate\Support\ServiceProvider;
 
 class LocalityServiceProvider extends ServiceProvider
 {
