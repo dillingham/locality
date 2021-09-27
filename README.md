@@ -31,13 +31,6 @@ You can publish the config file with:
 php artisan vendor:publish --provider="Dillingham\Locality\LocalityServiceProvider" --tag="locality-config"
 ```
 
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
 Add the following columns to your model's migration:
 
 ```php
@@ -46,8 +39,8 @@ $table->addAddress();
 or if you prefer to do it manually:
 ```php
 $table->string('formatted_address');
-$table->string('address_line_1')->nullable();
-$table->string('address_line_2')->nullable();
+$table->string('address_1')->nullable();
+$table->string('address_2')->nullable();
 $table->foreignId('admin_level_2_id')->index();
 $table->foreignId('admin_level_1_id')->index();
 $table->foreignId('postal_code_id')->index();
@@ -105,11 +98,8 @@ Access the string values of the relationships via accessors:
 $profile->admin_level_2 == 'Brooklyn'
 $profile->admin_level_1 == 'NY'
 ```
-Which is the same if you access from the relationship model:
-```php
-$profile->adminLevel2->display == 'Brooklyn'
-$profile->adminLevel1->display == 'NY'
-```
+> These accessors call relationships behind the scenes, eager load in collections
+
 Use various address format helpers with Eloquent accessors:
 ```php
 $profile->city_state == 'Brooklyn, NY'

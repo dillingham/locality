@@ -2,9 +2,9 @@
 
 namespace Dillingham\Locality\Tests;
 
+use Dillingham\Locality\LocalityServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Dillingham\Locality\LocalityServiceProvider;
 
 class TestCase extends Orchestra
 {
