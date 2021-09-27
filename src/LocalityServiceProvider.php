@@ -2,12 +2,7 @@
 
 namespace Dillingham\Locality;
 
-<<<<<<< HEAD
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\ServiceProvider;
-=======
->>>>>>> 795382ad868e3eddc51b3f73f999cb08ba5c884d
-use Dillingham\Locality\Commands\LocalityCommand;
 use Illuminate\Support\ServiceProvider;
 
 class LocalityServiceProvider extends ServiceProvider

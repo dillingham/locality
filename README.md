@@ -36,11 +36,12 @@ Add the following columns to your model's migration:
 ```php
 $table->addAddress();
 ```
-or if you prefer to do it manually:
+Which is just a shorthand for adding these columns:
 ```php
 $table->string('formatted_address');
 $table->string('address_1')->nullable();
 $table->string('address_2')->nullable();
+$table->foreignId('admin_level_3_id')->nullable()->index();
 $table->foreignId('admin_level_2_id')->index();
 $table->foreignId('admin_level_1_id')->index();
 $table->foreignId('postal_code_id')->index();
@@ -51,7 +52,6 @@ This and the 4 tables will be migrated:
 ```
 php artisan migrate
 ```
-
 
 Then add the `HasAddress` trait:
 
