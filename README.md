@@ -100,16 +100,7 @@ $profile->admin_level_1 == 'NY'
 ```
 > These accessors call relationships behind the scenes, eager load in collections
 
-Use various address format helpers with Eloquent accessors:
-```php
-$profile->city_state == 'Brooklyn, NY'
-$profile->city_state_zip == 'Brooklyn, NY 11222'
-```
-Would need to add the following to a model for collections:
-```php
-$appends = ['city_state'];
-```
-Note: the full address formatting is stored while saving:
+Note: the full address formatting is statically stored while saving:
 ```php
 $profile->formatted_address == '104 India St, #3l Brooklyn, NY 11222`
 ```
