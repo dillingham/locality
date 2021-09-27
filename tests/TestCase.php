@@ -8,15 +8,6 @@ use Dillingham\Locality\LocalityServiceProvider;
 
 class TestCase extends Orchestra
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Dillingham\\Locality\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
-    }
-
     protected function getPackageProviders($app)
     {
         return [
@@ -28,9 +19,17 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_locality_table.php.stub';
-        $migration->up();
-        */
+        $migrations = [
+            __DIR__.'/../database/migrations/create_admin_level_2_table.php.stub',
+            __DIR__.'/../database/migrations/create_admin_level_1_table.php.stub',
+            __DIR__.'/../database/migrations/create_postal_codes_table.php.stub',
+            __DIR__.'/../database/migrations/create_countries_table.php.stub',
+            __DIR__.'/Fixtures/create_profiles_table.php.stub',
+        ];
+
+        foreach ($migrations as $migration) {
+            $migration = include $migration;
+            $migration->up();
+        }
     }
 }

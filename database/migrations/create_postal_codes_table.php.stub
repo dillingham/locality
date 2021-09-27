@@ -8,11 +8,12 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('locality_table', function (Blueprint $table) {
+        Schema::create('postal_codes', function (Blueprint $table) {
             $table->id();
-
-            // add fields
-
+            $table->string('display');
+            $table->foreignId('admin_level_2_id')->index();
+            $table->foreignId('admin_level_1_id')->index();
+            $table->foreignId('country_id')->index();
             $table->timestamps();
         });
     }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Dillingham\Locality;
+namespace Dillingham\Locality\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Dillingham\Locality\Locality
  */
-class LocalityFacade extends Facade
+class Locality extends Facade
 {
     protected static function getFacadeAccessor()
     {
