@@ -2,7 +2,9 @@
 
 namespace Dillingham\Locality;
 
+use Dillingham\Locality\Http\Controllers\OptionController;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class LocalityServiceProvider extends ServiceProvider
@@ -29,6 +31,14 @@ class LocalityServiceProvider extends ServiceProvider
             $this->foreignId('country_id')->index();
 
             return $this;
+        });
+
+        Route::macro('localityDependentOptions', function() {
+            Route::get('locality/countries', [OptionController::class, 'countries']);
+            Route::get('locality/admin_level_1', [OptionController::class, 'adminLevel1']);
+            Route::get('locality/admin_level_2', [OptionController::class, 'adminlevel2']);
+            Route::get('locality/admin_level_3', [OptionController::class, 'adminLevel3']);
+            Route::get('locality/postal_codes', [OptionController::class, 'postalCodes']);
         });
     }
 
