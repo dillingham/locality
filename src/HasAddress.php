@@ -24,12 +24,12 @@ trait HasAddress
 
     public static function bootHasAddress()
     {
-        static::creating(function(Model $model) {
+        static::creating(function (Model $model) {
             Locality::normalize($model);
             Locality::formattedAddress($model);
         });
 
-        static::updating(function(Model $model) {
+        static::updating(function (Model $model) {
             if (Locality::wasChanged($model)) {
                 Locality::normalize($model);
                 Locality::formattedAddress($model);
