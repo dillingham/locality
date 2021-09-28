@@ -3,7 +3,6 @@
 namespace Dillingham\Locality\Tests;
 
 use Dillingham\Locality\LocalityServiceProvider;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
