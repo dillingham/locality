@@ -4,12 +4,12 @@ namespace Dillingham\Locality\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Country extends Model
+class CountryCode extends Model
 {
     public $guarded = ['id'];
 
     public function getTable()
     {
-        return config('locality.tables.countries');
+        return config('locality.tables.country_codes');
     }
 }

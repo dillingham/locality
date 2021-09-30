@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('display');
             $table->foreignId('admin_level_1_id')->index();
             $table->foreignId('admin_level_2_id')->index();
-            $table->foreignId('country_id')->index();
+            $table->foreignId('country_code_id')->index();
             $table->timestamps();
         });
     }

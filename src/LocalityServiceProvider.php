@@ -28,13 +28,13 @@ class LocalityServiceProvider extends ServiceProvider
             $this->foreignId('admin_level_2_id')->index();
             $this->foreignId('admin_level_1_id')->index();
             $this->foreignId('postal_code_id')->index();
-            $this->foreignId('country_id')->index();
+            $this->foreignId('country_code_id')->index();
 
             return $this;
         });
 
         Route::macro('localityDependentOptions', function() {
-            Route::get('locality/countries', [OptionController::class, 'countries']);
+            Route::get('locality/country_codes', [OptionController::class, 'countryCodes']);
             Route::get('locality/admin_level_1', [OptionController::class, 'adminLevel1']);
             Route::get('locality/admin_level_2', [OptionController::class, 'adminlevel2']);
             Route::get('locality/admin_level_3', [OptionController::class, 'adminLevel3']);

@@ -11,11 +11,11 @@ class Locality
         $this->syncRelations($model);
 
         unset(
-            $model->country,
             $model->admin_level_1,
             $model->admin_level_2,
             $model->admin_level_3,
             $model->postal_code,
+            $model->country_code,
         );
 
         return $model;
@@ -38,7 +38,7 @@ class Locality
             'admin_level_2',
             'admin_level_3',
             'postal_code',
-            'country'
+            'country_code'
         ]);
     }
 
@@ -47,22 +47,22 @@ class Locality
         $attributes = $model->getAttributes();
 
         if(!isset($attributes['country'])) {
-            $attributes['country'] = config('locality.default_country');
+            $attributes['country_code'] = config('locality.default_country_code');
         }
 
-        $country = $this->country()->firstOrCreate([
-            'display' => $attributes['country'],
+        $country_code = $this->countryCode()->firstOrCreate([
+            'display' => $attributes['country_code'],
         ]);
 
         $admin_level_1 = $this->adminLevel1()->firstOrCreate([
             'display' => $attributes['admin_level_1'],
-            'country_id' => $country->id,
+            'country_code_id' => $country_code->id,
         ]);
 
         $admin_level_2 = $this->adminLevel2()->firstOrCreate([
             'display' => $attributes['admin_level_2'],
             'admin_level_1_id' => $admin_level_1->id,
-            'country_id' => $country->id,
+            'country_code_id' => $country_code->id,
         ]);
 
         $admin_level_3 = null;
@@ -72,7 +72,7 @@ class Locality
                 'display' => $attributes['admin_level_3'],
                 'admin_level_2_id' => $admin_level_2->id,
                 'admin_level_1_id' => $admin_level_1->id,
-                'country_id' => $country->id,
+                'country_code_id' => $country_code->id,
             ]);
         }
 
@@ -81,19 +81,19 @@ class Locality
             'admin_level_3_id' => optional($admin_level_3)->id,
             'admin_level_2_id' => $admin_level_2->id,
             'admin_level_1_id' => $admin_level_1->id,
-            'country_id' => $country->id,
+            'country_code_id' => $country_code->id,
         ]);
 
         $model->admin_level_3_id = optional($admin_level_3)->id;
         $model->admin_level_2_id = $admin_level_2->id;
         $model->admin_level_1_id = $admin_level_1->id;
         $model->postal_code_id = $postal_code->id;
-        $model->country_id = $country->id;
+        $model->country_code_id = $country_code->id;
     }
 
-    public function country()
+    public function countryCode()
     {
-        return app(config('locality.models.country'));
+        return app(config('locality.models.country_code'));
     }
 
     public function adminLevel1()

@@ -8,28 +8,26 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait HasAddress
 {
+    public bool $localityRelations = false;
+    public bool $localityForeignKeys = false;
+
     protected function initializeHasAddress()
     {
-        $this->mergeFillable([
-            'formatted_address',
-            'address_1',
-            'address_2',
-            'admin_level_3',
-            'admin_level_2',
-            'admin_level_1',
-            'postal_code',
-            'country',
-        ]);
+        $this->appendLocalityAttributes();
+        $this->mergeLocalityFillable();
+        $this->eagerloadLocality();
+        $this->hideLocalityRelations();
+        $this->hideLocalityForeignKeys();
     }
 
     public static function bootHasAddress()
     {
-        static::creating(function(Model $model) {
+        static::creating(function (Model $model) {
             Locality::normalize($model);
             Locality::formattedAddress($model);
         });
 
-        static::updating(function(Model $model) {
+        static::updating(function (Model $model) {
             if (Locality::wasChanged($model)) {
                 Locality::normalize($model);
                 Locality::formattedAddress($model);
@@ -57,9 +55,9 @@ trait HasAddress
         return data_get($this, 'postalCodeRelation.display');
     }
 
-    public function getCountryAttribute()
+    public function getCountryCodeAttribute()
     {
-        return data_get($this, 'countryRelation.display');
+        return data_get($this, 'countryCodeRelation.display');
     }
 
     public function adminLevel1Relation(): BelongsTo
@@ -82,8 +80,70 @@ trait HasAddress
         return $this->belongsTo(config('locality.models.postal_code'), 'postal_code_id');
     }
 
-    public function countryRelation(): BelongsTo
+    public function countryCodeRelation(): BelongsTo
     {
-        return $this->belongsTo(config('locality.models.country'), 'country_id');
+        return $this->belongsTo(config('locality.models.country_code'), 'country_code_id');
+    }
+
+    private function appendLocalityAttributes(): void
+    {
+        $this->appends = array_merge($this->appends, [
+            'admin_level_3',
+            'admin_level_2',
+            'admin_level_1',
+            'postal_code',
+            'country_code',
+        ]);
+    }
+
+    private function mergeLocalityFillable(): void
+    {
+        $this->mergeFillable([
+            'formatted_address',
+            'address_1',
+            'address_2',
+            'admin_level_3',
+            'admin_level_2',
+            'admin_level_1',
+            'postal_code',
+            'country_code',
+        ]);
+    }
+
+    private function eagerloadLocality(): void
+    {
+        $this->with = array_merge($this->with, [
+            'adminLevel3Relation',
+            'adminLevel2Relation',
+            'adminLevel1Relation',
+            'postalCodeRelation',
+            'countryCodeRelation',
+        ]);
+    }
+
+    private function hideLocalityRelations(): void
+    {
+        if (!$this->localityRelations) {
+            $this->makeHidden([
+                'adminLevel3Relation',
+                'adminLevel2Relation',
+                'adminLevel1Relation',
+                'postalCodeRelation',
+                'countryCodeRelation',
+            ]);
+        }
+    }
+
+    private function hideLocalityForeignKeys(): void
+    {
+        if (!$this->localityForeignKeys) {
+            $this->makeHidden([
+                'admin_level_3_id',
+                'admin_level_2_id',
+                'admin_level_1_id',
+                'postal_code_id',
+                'country_code_id',
+            ]);
+        }
     }
 }

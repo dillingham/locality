@@ -4,10 +4,22 @@ namespace Dillingham\Locality\Tests;
 
 use Dillingham\Locality\LocalityServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Model::preventLazyLoading();
+
+        Factory::guessFactoryNamesUsing(
+            fn (string $modelName) => 'Dillingham\\Locality\\Tests\\Fixtures\\'.class_basename($modelName).'Factory'
+        );
+    }
+
     protected function getPackageProviders($app)
     {
         return [
@@ -20,11 +32,6 @@ class TestCase extends Orchestra
         config()->set('database.default', 'testing');
 
         $migrations = [
-            __DIR__ . '/../database/migrations/create_countries_table.php',
-            __DIR__ . '/../database/migrations/create_admin_level_1_table.php',
-            __DIR__ . '/../database/migrations/create_admin_level_2_table.php',
-            __DIR__ . '/../database/migrations/create_admin_level_3_table.php',
-            __DIR__ . '/../database/migrations/create_postal_codes_table.php',
             __DIR__.'/Fixtures/create_profiles_table.php',
         ];
 

@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('admin_level_1', function (Blueprint $table) {
             $table->id();
             $table->string('display');
-            $table->foreignId('country_id')->index();
+            $table->foreignId('country_code_id')->index();
             $table->timestamps();
         });
     }

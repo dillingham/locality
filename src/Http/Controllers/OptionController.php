@@ -8,20 +8,20 @@ use Illuminate\Routing\Controller;
 
 class OptionController extends Controller
 {
-    public function countries(Request $request)
+    public function countryCodes(Request $request)
     {
-        return Locality::country()
+        return Locality::countryCode()
             ->select(['display', 'id as value'])
             ->paginate(200);
     }
 
     public function adminLevel1(Request $request)
     {
-        $request->validate(['country_id' => ['required', 'numeric']]);
+        $request->validate(['country_code_id' => ['required', 'numeric']]);
 
         return Locality::adminLevel1()
             ->select(['display', 'id as value'])
-            ->where(['country_id' => $request->country_id])
+            ->where(['country_code_id' => $request->country_code_id])
             ->paginate(200);
     }
 

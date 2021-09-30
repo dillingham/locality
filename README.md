@@ -45,7 +45,7 @@ $table->foreignId('admin_level_3_id')->nullable()->index();
 $table->foreignId('admin_level_2_id')->index();
 $table->foreignId('admin_level_1_id')->index();
 $table->foreignId('postal_code_id')->index();
-$table->foreignId('country_id')->index();
+$table->foreignId('country_code_id')->index();
 ```
 
 This and the 4 tables will be migrated:
@@ -131,7 +131,7 @@ GET /api/locality/countries
 }
 ```
 ```
-GET /api/locality/admin_level_2?country_id=1
+GET /api/locality/admin_level_2?country_code_id=1
 ```
 ```json
 {
