@@ -115,4 +115,9 @@ class Locality
     {
         return app(config('locality.models.postal_code'));
     }
+
+    public function states()
+    {
+        return config('locality.states');
+    }
 }
