@@ -34,6 +34,8 @@ class Locality
     public function wasChanged(Model $model): bool
     {
         return $model->wasChanged([
+            'address_1',
+            'address_2',
             'admin_level_1',
             'admin_level_2',
             'admin_level_3',
