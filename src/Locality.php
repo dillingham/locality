@@ -40,7 +40,7 @@ class Locality
             'admin_level_2',
             'admin_level_3',
             'postal_code',
-            'country_code'
+            'country_code',
         ]);
     }
 
@@ -48,7 +48,7 @@ class Locality
     {
         $attributes = $model->getAttributes();
 
-        if(!isset($attributes['country'])) {
+        if (! isset($attributes['country'])) {
             $attributes['country_code'] = config('locality.default_country_code');
         }
 
@@ -69,7 +69,7 @@ class Locality
 
         $admin_level_3 = null;
 
-        if(isset($attributes['admin_level_3'])) {
+        if (isset($attributes['admin_level_3'])) {
             $admin_level_3 = $this->adminLevel3()->firstOrCreate([
                 'display' => $attributes['admin_level_3'],
                 'admin_level_2_id' => $admin_level_2->id,
