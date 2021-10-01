@@ -31,9 +31,9 @@ class Locality
             $model->postal_code;
     }
 
-    public function wasChanged(Model $model): bool
+    public function isDirty(Model $model): bool
     {
-        return $model->wasChanged([
+        return $model->isDirty([
             'address_1',
             'address_2',
             'admin_level_1',

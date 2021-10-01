@@ -28,7 +28,7 @@ trait HasAddress
         });
 
         static::updating(function (Model $model) {
-            if (Locality::wasChanged($model)) {
+            if (Locality::isDirty($model)) {
                 Locality::normalize($model);
                 Locality::formattedAddress($model);
             }
