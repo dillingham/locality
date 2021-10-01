@@ -11,7 +11,7 @@ class LocalityServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->bind('locality', function($app) {
+        $this->app->bind('locality', function ($app) {
             return new Locality();
         });
 
@@ -20,7 +20,7 @@ class LocalityServiceProvider extends ServiceProvider
             'locality'
         );
 
-        Blueprint::macro('addAddress', function() {
+        Blueprint::macro('addAddress', function () {
             $this->string('formatted_address')->nullable();
             $this->string('address_1')->nullable();
             $this->string('address_2')->nullable();
@@ -33,7 +33,7 @@ class LocalityServiceProvider extends ServiceProvider
             return $this;
         });
 
-        Route::macro('localityDependentOptions', function() {
+        Route::macro('localityDependentOptions', function () {
             Route::get('locality/country_codes', [OptionController::class, 'countryCodes']);
             Route::get('locality/admin_level_1', [OptionController::class, 'adminLevel1']);
             Route::get('locality/admin_level_2', [OptionController::class, 'adminlevel2']);
