@@ -2,7 +2,6 @@
 
 namespace Dillingham\Locality\Tests\Fixtures;
 
-use Dillingham\Locality\Tests\Fixtures\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProfileFactory extends Factory
