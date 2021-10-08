@@ -19,13 +19,6 @@ You can install the package via composer:
 composer require dillingham/locality
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --provider="Dillingham\Locality\LocalityServiceProvider" --tag="locality-migrations"
-php artisan migrate
-```
-
 You can publish the config file with:
 ```bash
 php artisan vendor:publish --provider="Dillingham\Locality\LocalityServiceProvider" --tag="locality-config"
@@ -37,18 +30,19 @@ Add the following columns to your model's migration:
 $table->addAddress();
 ```
 Which is just a shorthand for adding these columns:
-```php
-$table->string('formatted_address');
-$table->string('address_1')->nullable();
-$table->string('address_2')->nullable();
-$table->foreignId('admin_level_3_id')->nullable()->index();
-$table->foreignId('admin_level_2_id')->index();
-$table->foreignId('admin_level_1_id')->index();
-$table->foreignId('postal_code_id')->index();
-$table->foreignId('country_code_id')->index();
-```
 
-This and the 4 tables will be migrated:
+| column | nullable | indexed | description |
+|--------|----------|---------|-------------|
+| address_1 | yes | no | street and building number |
+| address_2 | yes | no | optional unit number |
+| admin_level_3_id | yes | yes | the neighborhood political region |
+| admin_level_2_id | no | yes | the city political region |
+| admin_level_1_id | no | yes | the state political region |
+| postal_code_id | no | yes | the postal foreign key |
+| country_id | yes | no | the country foreign key |
+| formatted_address | no | no | static address without queries |
+
+The 5 tables will be migrated:
 ```
 php artisan migrate
 ```
@@ -56,7 +50,7 @@ php artisan migrate
 Then add the `HasAddress` trait:
 
 ```php
-<>php
+<?php
 
 namespace App\Models;
 
@@ -131,7 +125,7 @@ GET /api/locality/countries
 }
 ```
 ```
-GET /api/locality/admin_level_2?country_code_id=1
+GET /api/locality/admin_level_2?country_id=1
 ```
 ```json
 {

@@ -19,9 +19,9 @@ class OptionControllerTest extends TestCase
 
     public function testCountries()
     {
-        Locality::countryCode()->create(['display' => 'USA']);
+        Locality::country()->create(['display' => 'USA']);
 
-        $this->get('locality/country_codes')
+        $this->get('locality/countries')
             ->assertStatus(200)
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.display', 'USA');
@@ -29,19 +29,19 @@ class OptionControllerTest extends TestCase
 
     public function testAdminLevel1()
     {
-        $country = Locality::countryCode()->create(['display' => 'USA']);
+        $country = Locality::country()->create(['display' => 'USA']);
 
         Locality::adminLevel1()->create([
             'display' => 'NY',
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
         Locality::adminLevel1()->create([
             'display' => 'Belgium',
-            'country_code_id' => $country->id + 1
+            'country_id' => $country->id + 1
         ]);
 
-        $this->get('locality/admin_level_1?country_code_id=' . $country->id)
+        $this->get('locality/admin_level_1?country_id=' . $country->id)
             ->assertStatus(200)
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.display', 'NY');
@@ -49,25 +49,25 @@ class OptionControllerTest extends TestCase
 
     public function testAdminLevel2()
     {
-        $country = Locality::countryCode()->create([
+        $country = Locality::country()->create([
             'display' => 'US'
         ]);
 
         $admin_level_1 = Locality::adminLevel1()->create([
             'display' => 'NY',
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
         Locality::adminLevel2()->create([
             'display' => 'Brooklyn',
             'admin_level_1_id' => $admin_level_1->id,
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
         Locality::adminLevel2()->create([
             'display' => 'Mexico City',
             'admin_level_1_id' => $admin_level_1->id + 1,
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
         $this->get('locality/admin_level_2?admin_level_1_id=' . $admin_level_1->id)
@@ -78,33 +78,33 @@ class OptionControllerTest extends TestCase
 
     public function testAdminLevel3()
     {
-        $country = Locality::countryCode()->create([
+        $country = Locality::country()->create([
             'display' => 'US'
         ]);
 
         $admin_level_1 = Locality::adminLevel1()->create([
             'display' => 'NY',
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
         $admin_level_2 = Locality::adminLevel2()->create([
             'display' => 'Brooklyn',
             'admin_level_1_id' => $admin_level_1->id,
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
         Locality::adminLevel3()->create([
             'display' => 'Greenpoint',
             'admin_level_2_id' => $admin_level_2->id,
             'admin_level_1_id' => $admin_level_1->id,
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
         Locality::adminLevel3()->create([
             'display' => 'Not greenpoint',
             'admin_level_2_id' => $admin_level_2->id + 1,
             'admin_level_1_id' => $admin_level_1->id,
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
         $this->get('locality/admin_level_3?admin_level_2_id=' . $admin_level_2->id)
@@ -115,33 +115,33 @@ class OptionControllerTest extends TestCase
 
     public function testPostalCodes()
     {
-        $country = Locality::countryCode()->create([
+        $country = Locality::country()->create([
             'display' => 'US'
         ]);
 
         $admin_level_1 = Locality::adminLevel1()->create([
             'display' => 'NY',
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
         $admin_level_2 = Locality::adminLevel2()->create([
             'display' => 'Brooklyn',
             'admin_level_1_id' => $admin_level_1->id,
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
         $admin_level_3 = Locality::adminLevel3()->create([
             'display' => 'Greenpoint',
             'admin_level_2_id' => $admin_level_2->id,
             'admin_level_1_id' => $admin_level_1->id,
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
         $admin_level_3_ignore = Locality::adminLevel3()->create([
             'display' => 'Not greenpoint',
             'admin_level_2_id' => $admin_level_2->id + 1,
             'admin_level_1_id' => $admin_level_1->id,
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
          Locality::postalCode()->create([
@@ -149,7 +149,7 @@ class OptionControllerTest extends TestCase
             'admin_level_3_id' => $admin_level_3->id,
             'admin_level_2_id' => $admin_level_2->id,
             'admin_level_1_id' => $admin_level_1->id,
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
          Locality::postalCode()->create([
@@ -157,7 +157,7 @@ class OptionControllerTest extends TestCase
             'admin_level_3_id' => $admin_level_3_ignore->id,
             'admin_level_2_id' => $admin_level_2->id,
             'admin_level_1_id' => $admin_level_1->id,
-            'country_code_id' => $country->id
+            'country_id' => $country->id
         ]);
 
         $this->get('locality/postal_codes?admin_level_3_id=' . $admin_level_3->id)
