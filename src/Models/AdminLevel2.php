@@ -2,8 +2,8 @@
 
 namespace Dillingham\Locality\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Dillingham\Locality\Relations;
+use Illuminate\Database\Eloquent\Model;
 
 class AdminLevel2 extends Model
 {

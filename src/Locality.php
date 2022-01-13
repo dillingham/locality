@@ -11,7 +11,7 @@ class Locality
 
     public function normalize(Model $model): Model
     {
-        if(! $this->isDirty($model)) {
+        if (! $this->isDirty($model)) {
             return $model;
         }
 
@@ -30,7 +30,7 @@ class Locality
 
     public function formattedAddress(Model $model, array $values): Model
     {
-        if(! $this->isDirty($model)) {
+        if (! $this->isDirty($model)) {
             return $model;
         }
 
@@ -70,43 +70,43 @@ class Locality
         $values = [];
 
         $submitted = Arr::only(
-            $model->getAttributes()
-        , $attributes);
+            $model->getAttributes(),
+            $attributes
+        );
 
-        if($model->exists) {
-
-            if(array_key_exists('country', $submitted)) {
+        if ($model->exists) {
+            if (array_key_exists('country', $submitted)) {
                 $submitted = array_merge($this->only($model, ['admin_level_3', 'admin_level_2', 'admin_level_1', 'postal_code']), $submitted);
             }
 
-            if(array_key_exists('postal_code', $submitted)) {
+            if (array_key_exists('postal_code', $submitted)) {
                 $submitted = array_merge($this->only($model, ['admin_level_3_id', 'admin_level_2_id', 'admin_level_1_id']), $submitted);
             }
 
-            if(array_key_exists('admin_level_1', $submitted)) {
+            if (array_key_exists('admin_level_1', $submitted)) {
                 $submitted = array_merge($this->only($model, ['admin_level_2']), $submitted);
             }
 
-            if(array_key_exists('admin_level_3', $submitted)) {
+            if (array_key_exists('admin_level_3', $submitted)) {
                 $submitted = array_merge($this->only($model, ['postal_code', 'admin_level_2_id', 'admin_level_1_id']), $submitted);
             }
 
-            if(array_key_exists('admin_level_2', $submitted)) {
+            if (array_key_exists('admin_level_2', $submitted)) {
                 $submitted = array_merge($this->only($model, ['admin_level_3', 'postal_code','admin_level_1_id']), $submitted);
             }
 
             $submitted = array_reverse($submitted);
         }
 
-        foreach($attributes as $attribute) {
+        foreach ($attributes as $attribute) {
             $default = Arr::get(config('locality.defaults', []), $attribute);
             $value = Arr::get($submitted, $attribute, $default);
 
-            if(isset($submitted["{$attribute}_id"])) {
+            if (isset($submitted["{$attribute}_id"])) {
                 $values["{$attribute}_id"] = $submitted["{$attribute}_id"];
             }
 
-            if(!$value) {
+            if (! $value) {
                 continue;
             }
 
@@ -119,7 +119,7 @@ class Locality
             $values["{$attribute}_id"] = $relation->id;
         }
 
-        foreach($values as $key => $value) {
+        foreach ($values as $key => $value) {
             $model->$key = $value;
         }
 
@@ -160,7 +160,7 @@ class Locality
     {
         $output = [];
 
-        foreach($keys as $key) {
+        foreach ($keys as $key) {
             $output[$key] = data_get($model, $key);
         }
 

@@ -116,7 +116,7 @@ class HasAddressTest extends TestCase
         ]);
 
         $profile->update([
-            'address_2' => '#2L'
+            'address_2' => '#2L',
         ]);
 
         $this->assertEquals('104 India St #2L, Brooklyn, NY 11222', $profile->formatted_address);
@@ -252,7 +252,7 @@ class HasAddressTest extends TestCase
 
         $profile->update([
             'admin_level_3' => 'Greenpoint',
-            'admin_level_1' => 'FL'
+            'admin_level_1' => 'FL',
         ]);
 
         $this->assertEquals(1, AdminLevel3::count());

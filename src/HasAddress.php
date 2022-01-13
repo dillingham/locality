@@ -3,7 +3,6 @@
 namespace Dillingham\Locality;
 
 use Dillingham\Locality\Facades\Locality;
-use Dillingham\Locality\Relations;
 use Illuminate\Database\Eloquent\Model;
 
 trait HasAddress
@@ -71,7 +70,7 @@ trait HasAddress
 
     private function hideLocalityRelations(): void
     {
-        if (!$this->localityRelations) {
+        if (! $this->localityRelations) {
             $this->makeHidden([
                 'adminLevel3Relation',
                 'adminLevel2Relation',
@@ -84,7 +83,7 @@ trait HasAddress
 
     private function hideLocalityForeignKeys(): void
     {
-        if (!$this->localityForeignKeys) {
+        if (! $this->localityForeignKeys) {
             $this->makeHidden([
                 'admin_level_3_id',
                 'admin_level_2_id',
