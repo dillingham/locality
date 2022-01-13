@@ -262,4 +262,32 @@ class HasAddressTest extends TestCase
         $this->assertEquals(1, Country::count());
         $this->assertEquals('104 India St #3L, Brooklyn, FL 11222', $profile->fresh()->formatted_address);
     }
+
+    public function test_updating_nested_relations_all()
+    {
+        $profile = Profile::create([
+            'address_1' => '104 India St',
+            'address_2' => '#3L',
+            'admin_level_2' => 'Brooklyn',
+            'admin_level_1' => 'NY',
+            'postal_code' => '11222',
+        ]);
+
+        $profile = Profile::find($profile->id);
+
+        $profile->update([
+            "address_1" => "4643 Stark Forge",
+            "address_2" => "#D22",
+            "admin_level_2" => "West Abraha",
+            "admin_level_1" => "FL",
+            "postal_code" => "10587",
+        ]);
+
+        $this->assertEquals(0, AdminLevel3::count());
+        $this->assertEquals(2, AdminLevel2::count());
+        $this->assertEquals(2, AdminLevel1::count());
+        $this->assertEquals(2, PostalCode::count());
+        $this->assertEquals(1, Country::count());
+        $this->assertEquals('4643 Stark Forge #D22, West Abraha, FL 10587', $profile->fresh()->formatted_address);
+    }
 }
